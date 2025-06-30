@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Luxura Motors</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet"/>
+  <!-- Insert the shared CSS here -->
+  <!-- ... (copy the CSS from above) ... -->
+  <style>
+    /* Add page-specific styles below the shared CSS */
+    .hero {
+      background: url('https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0 8vw;
+      color: var(--white);
+      position: relative;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(17,17,17,0.5);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 500px;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #ececec;
+    }
+    .hero button {
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      transition: background 0.2s;
+    }
+    .hero button:hover {
+      background: #bfa334;
+    }
+    .models {
+      padding: 4rem 8vw;
+      background: var(--white);
+    }
+    .models-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 2rem;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    .models-list {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .model-card {
+      background: var(--bg);
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      overflow: hidden;
+      width: 320px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .model-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 8px 32px rgba(212,175,55,0.15);
+    }
+    .model-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .model-info {
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .model-info h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+    .model-info p {
+      color: var(--gray);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .model-info .specs {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      font-size: 0.95rem;
+      color: var(--primary);
+    }
+    footer {
+      background: var(--primary);
+      color: var(--white);
+      text-align: center;
+      padding: 2rem 0;
+      margin-top: 4rem;
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+    @media (max-width: 900px) {
+      .models-list {
+        flex-direction: column;
+        align-items: center;
+      }
+      .hero {
+        padding: 0 4vw;
+      }
+      .models {
+        padding: 3rem 4vw;
+      }
+    }
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .models-title {
+        font-size: 1.5rem;
+      }
+      .model-card {
+        width: 100%;
+      }
+      .hero-content {
+        max-width: 100vw;
+      }
+    }
+
+
+:root {
+  --primary: #111;
+  --accent: #d4af37;
+  --bg: #f7f7f7;
+  --white: #fff;
+  --gray: #888;
+}
+body {
+  background: var(--bg);
+  color: var(--primary);
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+header {
+  background: var(--white);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 1.2rem 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.logo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 2px;
+}
+nav ul {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+nav a {
+  text-decoration: none;
+  color: var(--primary);
+  font-weight: 500;
+  transition: color 0.2s;
+  font-size: 1rem;
+}
+nav a:hover, nav a:focus {
+  color: var(--accent);
+}
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+.nav-toggle span {
+  display: block;
+  width: 26px;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+@media (max-width: 900px) {
+  header {
+    padding: 1.2rem 3vw;
+  }
+}
+@media (max-width: 700px) {
+  nav ul {
+    flex-direction: column;
+    background: var(--white);
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    padding: 1.5rem 0;
+    gap: 1.2rem;
+    display: none;
+  }
+  nav ul.open {
+    display: flex;
+  }
+  .nav-toggle {
+    display: flex;
+  }
+}
+@media (max-width: 600px) {
+  .logo {
+    font-size: 1.3rem;
+  }
+  header {
+    padding: 0.8rem 2vw;
+  }
+  nav a {
+    font-size: 1rem;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </style>
+</head>
+<body>
+  <!-- Shared header/navigation -->
+  <header>
+    <div class="logo">Luxura</div>
+    <nav id="mainNav">
+      <ul>
+        <li><a href="model.html">Models</a></li>
+        <li><a href="heritage.html">Heritage</a></li>
+        <li><a href="configurator.html">Configurator</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Redefining Luxury Performance</h1>
+      <p>Experience the pinnacle of automotive engineering. Discover our exclusive collection of luxury vehicles, crafted for those who demand the extraordinary.</p>
+      <button onclick="window.scrollTo({top: document.querySelector('.models').offsetTop - 60, behavior: 'smooth'})">Explore Models</button>
+    </div>
+  </section>
+  <section class="models">
+    <div class="models-title">Featured Models</div>
+    <div class="models-list" id="models-list">
+      <!-- Cards will be injected by JS -->
+    </div>
+  </section>
+  <footer>
+    &copy; 2025 Luxura Motors. All rights reserved.
+  </footer>
+  <script>
+    // Responsive nav
+    const navToggle = document.getElementById('navToggle');
+    const mainNav = document.querySelector('nav ul');
+    navToggle.addEventListener('click', () => {
+      mainNav.classList.toggle('open');
+      navToggle.classList.toggle('active');
+    });
+    window.addEventListener('resize', () => {
+      if(window.innerWidth > 700) mainNav.classList.remove('open');
+    });
+
+    // Models
+    const models = [
+      {
+        name: "Luxura Phantom GT",
+        desc: "A flagship sedan blending timeless elegance with cutting-edge technology.",
+        img: "https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=800&q=80",
+        specs: ["V12 Engine", "0-100km/h: 3.8s", "Top Speed: 320km/h"]
+      },
+      {
+        name: "Luxura Aero S",
+        desc: "A dynamic coupe engineered for exhilarating performance and supreme comfort.",
+        img: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80",
+        specs: ["V8 Twin Turbo", "0-100km/h: 3.2s", "Top Speed: 340km/h"]
+      },
+      {
+        name: "Luxura Elysium SUV",
+        desc: "A luxury SUV offering unmatched versatility, safety, and prestige.",
+        img: "https://images.unsplash.com/photo-1461632830798-3adb3034e4c8?auto=format&fit=crop&w=800&q=80",
+        specs: ["Hybrid Powertrain", "AWD", "Range: 700km"]
+      }
+    ];
+    const modelsList = document.getElementById('models-list');
+    models.forEach(model => {
+      const card = document.createElement('div');
+      card.className = 'model-card';
+      card.innerHTML = `
+        <img src="${model.img}" alt="${model.name}" class="model-img"/>
+        <div class="model-info">
+          <h2>${model.name}</h2>
+          <p>${model.desc}</p>
+          <div class="specs">
+            ${model.specs.map(s => `<span>${s}</span>`).join('')}
+          </div>
+        </div>
+      `;
+      modelsList.appendChild(card);
+    });
+  </script>
+</body>
+</html>

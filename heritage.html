@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Luxura Heritage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #111;
+      --accent: #d4af37;
+      --bg: #f7f7f7;
+      --white: #fff;
+      --gray: #888;
+    }
+    body {
+      background: var(--bg);
+      color: var(--primary);
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: var(--white);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      padding: 1.2rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 2px;
+    }
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 500;
+      transition: color 0.2s;
+      font-size: 1rem;
+    }
+    nav a:hover, nav a:focus {
+      color: var(--accent);
+    }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 26px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    @media (max-width: 700px) {
+      nav ul {
+        flex-direction: column;
+        background: var(--white);
+        position: absolute;
+        top: 100%;
+        right: 0;
+        left: 0;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        padding: 1.5rem 0;
+        gap: 1.2rem;
+        display: none;
+      }
+      nav ul.open {
+        display: flex;
+      }
+      .nav-toggle {
+        display: flex;
+      }
+    }
+    @media (max-width: 600px) {
+      .logo {
+        font-size: 1.3rem;
+      }
+      header {
+        padding: 0.8rem 2vw;
+      }
+      nav a {
+        font-size: 1rem;
+      }
+    }
+
+    /* Hero Section */
+    .heritage-hero {
+      background: url('https://images.unsplash.com/photo-1461632830798-3adb3034e4c8?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+      min-height: 35vh;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 8vw 3vw 8vw;
+      position: relative;
+      color: var(--white);
+    }
+    .heritage-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(17,17,17,0.45);
+    }
+    .heritage-hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+    }
+    .heritage-hero h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+    }
+    .heritage-hero p {
+      font-size: 1.2rem;
+      color: #ececec;
+      margin-bottom: 1rem;
+    }
+
+    /* Timeline Section */
+    .timeline-section {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 0 2vw;
+    }
+    .timeline-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      color: var(--primary);
+      text-align: center;
+    }
+    .timeline {
+      border-left: 4px solid var(--accent);
+      padding-left: 2rem;
+      position: relative;
+    }
+    .timeline-event {
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+    .timeline-event::before {
+      content: '';
+      position: absolute;
+      left: -2.2rem;
+      top: 0.3rem;
+      width: 1.2rem;
+      height: 1.2rem;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 3px solid var(--white);
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+    .timeline-year {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+    }
+    .timeline-desc {
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    .timeline-img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+      margin-top: 0.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      display: block;
+    }
+
+    /* Icons Section */
+    .icons-section {
+      background: var(--white);
+      padding: 3rem 0;
+      margin-top: 3rem;
+    }
+    .icons-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      color: var(--primary);
+      text-align: center;
+    }
+    .icons-list {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .icon-item {
+      text-align: center;
+      max-width: 120px;
+    }
+    .icon-img {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+      margin-bottom: 0.7rem;
+      filter: grayscale(0.2);
+    }
+    .icon-label {
+      font-size: 1rem;
+      color: var(--gray);
+      font-weight: 500;
+    }
+
+    footer {
+      background: var(--primary);
+      color: var(--white);
+      text-align: center;
+      padding: 2rem 0;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      margin-top: 2rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+      .timeline-section {
+        padding: 0 1vw;
+      }
+      .icons-list {
+        gap: 1.2rem;
+      }
+      .heritage-hero h1 {
+        font-size: 2rem;
+      }
+    }
+    @media (max-width: 600px) {
+      .timeline-section, .icons-section {
+        padding: 1.2rem 0.5rem;
+      }
+      .heritage-hero {
+        padding: 0 4vw 2vw 4vw;
+        min-height: 22vh;
+      }
+      .timeline {
+        padding-left: 1rem;
+      }
+      .timeline-img {
+        max-width: 98vw;
+      }
+      .icons-list {
+        gap: 0.7rem;
+      }
+      .heritage-hero h1 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Luxura</div>
+    <nav id="mainNav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="model.html">Models</a></li>
+        <li><a href="configurator.html">Configurator</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+  <section class="heritage-hero">
+    <div class="heritage-hero-content">
+      <h1>Our Heritage</h1>
+      <p>
+        A legacy of excellence. Discover the story behind Luxura, where innovation, craftsmanship, and passion have shaped a century of automotive artistry.
+      </p>
+    </div>
+  </section>
+  <section class="timeline-section">
+    <div class="timeline-title">Milestones</div>
+    <div class="timeline">
+      <div class="timeline-event">
+        <div class="timeline-year">1925</div>
+        <div class="timeline-desc">Luxura is founded by visionary engineer Charles Beaumont, setting new standards for luxury motoring.</div>
+        <img src="https://images.unsplash.com/photo-1461632830798-3adb3034e4c8?auto=format&fit=crop&w=600&q=80" alt="Founding Era" class="timeline-img"/>
+      </div>
+      <div class="timeline-event">
+        <div class="timeline-year">1952</div>
+        <div class="timeline-desc">The iconic Luxura Royale debuts, introducing timeless design and advanced comfort features to the world.</div>
+        <img src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=600&q=80" alt="Royale Debut" class="timeline-img"/>
+      </div>
+      <div class="timeline-event">
+        <div class="timeline-year">1978</div>
+        <div class="timeline-desc">First V12 engine launched, redefining performance and setting new benchmarks in the luxury segment.</div>
+        <img src="https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=600&q=80" alt="V12 Engine" class="timeline-img"/>
+      </div>
+      <div class="timeline-event">
+        <div class="timeline-year">2001</div>
+        <div class="timeline-desc">Luxura introduces hybrid technology, blending sustainability with signature elegance.</div>
+        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=600&q=80" alt="Hybrid Era" class="timeline-img"/>
+      </div>
+      <div class="timeline-event">
+        <div class="timeline-year">2025</div>
+        <div class="timeline-desc">Celebrating 100 years of Luxura—pioneering the future of luxury mobility with innovation and style.</div>
+        <img src="https://images.unsplash.com/photo-1461632830798-3adb3034e4c8?auto=format&fit=crop&w=600&q=80" alt="Centenary" class="timeline-img"/>
+      </div>
+    </div>
+  </section>
+  <section class="icons-section">
+    <div class="icons-title">Inspired by Legends</div>
+    <div class="icons-list">
+      <div class="icon-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Rolls_Royce_logo.png" alt="Rolls-Royce" class="icon-img"/>
+        <div class="icon-label">Rolls-Royce</div>
+      </div>
+      <div class="icon-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Bentley_logo_2013.png" alt="Bentley" class="icon-img"/>
+        <div class="icon-label">Bentley</div>
+      </div>
+      <div class="icon-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Lamborghini_Logo.svg" alt="Lamborghini" class="icon-img"/>
+        <div class="icon-label">Lamborghini</div>
+      </div>
+      <div class="icon-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Ferrari-Logo.svg" alt="Ferrari" class="icon-img"/>
+        <div class="icon-label">Ferrari</div>
+      </div>
+      <div class="icon-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Porsche_Logo.svg" alt="Porsche" class="icon-img"/>
+        <div class="icon-label">Porsche</div>
+      </div>
+      <div class="icon-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Aston_Martin_logo.svg" alt="Aston Martin" class="icon-img"/>
+        <div class="icon-label">Aston Martin</div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    &copy; 2025 Luxura Motors. All rights reserved.
+  </footer>
+  <script>
+    // Responsive nav
+    const navToggle = document.getElementById('navToggle');
+    const mainNav = document.querySelector('nav ul');
+    navToggle.addEventListener('click', () => {
+      mainNav.classList.toggle('open');
+      navToggle.classList.toggle('active');
+    });
+    window.addEventListener('resize', () => {
+      if(window.innerWidth > 700) mainNav.classList.remove('open');
+    });
+  </script>
+</body>
+</html>

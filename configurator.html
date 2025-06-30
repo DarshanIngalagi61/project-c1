@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Luxura Configurator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #111;
+      --accent: #d4af37;
+      --bg: #f7f7f7;
+      --white: #fff;
+      --gray: #888;
+    }
+    body {
+      background: var(--bg);
+      color: var(--primary);
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: var(--white);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      padding: 1.2rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 2px;
+    }
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 500;
+      transition: color 0.2s;
+      font-size: 1rem;
+    }
+    nav a:hover, nav a:focus {
+      color: var(--accent);
+    }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 26px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    @media (max-width: 700px) {
+      nav ul {
+        flex-direction: column;
+        background: var(--white);
+        position: absolute;
+        top: 100%;
+        right: 0;
+        left: 0;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        padding: 1.5rem 0;
+        gap: 1.2rem;
+        display: none;
+      }
+      nav ul.open {
+        display: flex;
+      }
+      .nav-toggle {
+        display: flex;
+      }
+    }
+    @media (max-width: 600px) {
+      .logo {
+        font-size: 1.3rem;
+      }
+      header {
+        padding: 0.8rem 2vw;
+      }
+      nav a {
+        font-size: 1rem;
+      }
+    }
+
+    .configurator-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4vw;
+      max-width: 1200px;
+      margin: 3rem auto;
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      padding: 2.5rem 2rem;
+    }
+    .configurator-visual {
+      flex: 1 1 340px;
+      min-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .car-image {
+      width: 340px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(212,175,55,0.10);
+      margin-bottom: 1.5rem;
+      background: #eee;
+      transition: box-shadow 0.2s;
+    }
+    .price-box {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 1rem 2rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .configurator-options {
+      flex: 1 1 340px;
+      min-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .option-group {
+      margin-bottom: 1rem;
+    }
+    .option-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+      color: var(--primary);
+    }
+    .color-options, .wheel-options {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .color-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--gray);
+      outline: none;
+      cursor: pointer;
+      transition: border 0.2s;
+      position: relative;
+      background: #fff;
+    }
+    .color-btn.selected {
+      border: 3px solid var(--accent);
+    }
+    .color-btn[data-color="black"] { background: #222; }
+    .color-btn[data-color="white"] { background: #f4f4f4; }
+    .color-btn[data-color="red"] { background: #b80000; }
+    .color-btn[data-color="blue"] { background: #1e3a8a; }
+    .color-btn[data-color="gold"] { background: #d4af37; }
+    .wheel-btn {
+      padding: 0.7rem 1.2rem;
+      border-radius: 24px;
+      border: 2px solid var(--gray);
+      background: var(--bg);
+      font-weight: 600;
+      cursor: pointer;
+      transition: border 0.2s, background 0.2s;
+      font-size: 1rem;
+    }
+    .wheel-btn.selected {
+      border: 3px solid var(--accent);
+      background: #fffbe6;
+    }
+    .addon-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+    .addon-item {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 1rem;
+      color: var(--primary);
+    }
+    .addon-item input[type="checkbox"] {
+      accent-color: var(--accent);
+      width: 18px;
+      height: 18px;
+    }
+    .summary-section {
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .summary-section button {
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      padding: 1.2rem 3.2rem;
+      border-radius: 30px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      transition: background 0.2s;
+    }
+    .summary-section button:hover {
+      background: #bfa334;
+    }
+    @media (max-width: 900px) {
+      .configurator-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+      }
+      .car-image {
+        width: 95vw;
+        max-width: 340px;
+      }
+      .configurator-visual, .configurator-options {
+        min-width: 0;
+        width: 100%;
+      }
+    }
+    @media (max-width: 600px) {
+      .configurator-container {
+        padding: 1.2rem 0.5rem;
+      }
+      .car-image {
+        width: 98vw;
+        min-width: 180px;
+        height: 120px;
+      }
+      .option-title {
+        font-size: 1rem;
+      }
+      .wheel-btn {
+        font-size: 0.95rem;
+        padding: 0.6rem 1rem;
+      }
+    }
+    footer {
+      background: var(--primary);
+      color: var(--white);
+      text-align: center;
+      padding: 2rem 0;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Luxura</div>
+    <nav id="mainNav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="model.html">Models</a></li>
+        <li><a href="heritage.html">Heritage</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+  <div class="configurator-container">
+    <div class="configurator-visual">
+      <img id="carImage" class="car-image" src="https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=800&q=80" alt="Configured Car"/>
+      <div class="price-box" id="totalPrice">₹1,20,00,000</div>
+    </div>
+    <div class="configurator-options">
+      <div class="option-group">
+        <div class="option-title">Exterior Color</div>
+        <div class="color-options">
+          <button class="color-btn selected" data-color="black" title="Black"></button>
+          <button class="color-btn" data-color="white" title="White"></button>
+          <button class="color-btn" data-color="red" title="Red"></button>
+          <button class="color-btn" data-color="blue" title="Blue"></button>
+          <button class="color-btn" data-color="gold" title="Gold"></button>
+        </div>
+      </div>
+      <div class="option-group">
+        <div class="option-title">Wheels</div>
+        <div class="wheel-options">
+          <button class="wheel-btn selected" data-wheel="standard">Standard</button>
+          <button class="wheel-btn" data-wheel="sport">Sport (+₹2,50,000)</button>
+          <button class="wheel-btn" data-wheel="performance">Performance (+₹5,00,000)</button>
+        </div>
+      </div>
+      <div class="option-group">
+        <div class="option-title">Add-ons</div>
+        <div class="addon-list">
+          <label class="addon-item">
+            <input type="checkbox" data-addon="sunroof"/>
+            Panoramic Sunroof (+₹1,20,000)
+          </label>
+          <label class="addon-item">
+            <input type="checkbox" data-addon="sound"/>
+            Premium Sound System (+₹90,000)
+          </label>
+          <label class="addon-item">
+            <input type="checkbox" data-addon="assist"/>
+            Advanced Driver Assist (+₹2,00,000)
+          </label>
+        </div>
+      </div>
+      <div class="summary-section">
+        <button onclick="alert('Thank you for configuring your Luxura! Our team will contact you soon.')">Request Offer</button>
+      </div>
+    </div>
+  </div>
+  <footer>
+    &copy; 2025 Luxura Motors. All rights reserved.
+  </footer>
+  <script>
+    // Responsive nav
+    const navToggle = document.getElementById('navToggle');
+    const mainNav = document.querySelector('nav ul');
+    navToggle.addEventListener('click', () => {
+      mainNav.classList.toggle('open');
+      navToggle.classList.toggle('active');
+    });
+    window.addEventListener('resize', () => {
+      if(window.innerWidth > 700) mainNav.classList.remove('open');
+    });
+
+    // Configurator logic
+    const basePrice = 12000000; // ₹1,20,00,000
+    const wheelPrices = {
+      standard: 0,
+      sport: 250000,
+      performance: 500000
+    };
+    const addonPrices = {
+      sunroof: 120000,
+      sound: 90000,
+      assist: 200000
+    };
+    const colorImages = {
+      black: "https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=800&q=80",
+      white: "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=800&q=80",
+      red: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80",
+      blue: "https://images.unsplash.com/photo-1461632830798-3adb3034e4c8?auto=format&fit=crop&w=800&q=80",
+      gold: "https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=800&q=80"
+    };
+
+    let selectedColor = "black";
+    let selectedWheel = "standard";
+    let selectedAddons = [];
+
+    const carImage = document.getElementById('carImage');
+    const totalPriceBox = document.getElementById('totalPrice');
+    const colorBtns = document.querySelectorAll('.color-btn');
+    const wheelBtns = document.querySelectorAll('.wheel-btn');
+    const addonInputs = document.querySelectorAll('.addon-item input[type="checkbox"]');
+
+    function updateCarImage() {
+      carImage.src = colorImages[selectedColor];
+    }
+
+    function updatePrice() {
+      let price = basePrice + wheelPrices[selectedWheel];
+      selectedAddons.forEach(addon => {
+        price += addonPrices[addon];
+      });
+      totalPriceBox.textContent = `₹${price.toLocaleString("en-IN")}`;
+    }
+
+    colorBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        colorBtns.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedColor = btn.getAttribute('data-color');
+        updateCarImage();
+      });
+    });
+
+    wheelBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        wheelBtns.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedWheel = btn.getAttribute('data-wheel');
+        updatePrice();
+      });
+    });
+
+    addonInputs.forEach(input => {
+      input.addEventListener('change', () => {
+        selectedAddons = Array.from(addonInputs).filter(i => i.checked).map(i => i.getAttribute('data-addon'));
+        updatePrice();
+      });
+    });
+
+    // Initial state
+    updateCarImage();
+    updatePrice();
+  </script>
+</body>
+</html>
